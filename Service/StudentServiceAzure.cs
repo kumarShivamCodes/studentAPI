@@ -1,5 +1,6 @@
 using Azure;
 using Azure.Data.Tables;
+using Azure.Identity;
 using studentAPI.Models;
 using studentAPI.Service;
 
@@ -7,9 +8,9 @@ public class StudentServiceAzure : IStudentService
 {
     private readonly TableClient _tableClient;
 
-    public StudentServiceAzure(TableServiceClient tableClient)
+    public StudentServiceAzure()
     {
-        _tableClient = tableClient.GetTableClient("student");
+        _tableClient = new TableClient( new Uri("https://apidatastorage123.table.core.windows.net/student"),"student",new DefaultAzureCredential());
     }
    public async Task<Student> CreateStudentAsync(Student student)
 {

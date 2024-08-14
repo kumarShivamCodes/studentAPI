@@ -8,9 +8,6 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register the TableServiceClient with your Azure Storage connection string
-builder.Services.AddSingleton(new TableServiceClient("DefaultEndpointsProtocol=https;AccountName=apidatastorage123;AccountKey=bbWudEcMm4C6B9cNJusfFgoqMVjt+6cZCRlnRrmxW4ycb+A5gJ1A/efD/hDs+XMCDG0PQ4DBx5Tp+AStSp2AjQ==;EndpointSuffix=core.windows.net"));
-
 // Register your StudentServiceAzure as the implementation of IStudentService
 builder.Services.AddScoped<IStudentService, StudentServiceAzure>();
 
