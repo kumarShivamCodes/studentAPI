@@ -8,3 +8,5 @@ obj/Debug/net6.0/studentAPI.dll
 obj/Debug/net6.0/studentAPI.pdb
 obj/Debug/net6.0/ref/studentAPI.dll
 bin/Debug/net6.0/studentAPI.dll
+bin/
+obj/
