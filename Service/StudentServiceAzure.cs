@@ -8,9 +8,9 @@ public class StudentServiceAzure : IStudentService
 {
     private readonly TableClient _tableClient;
 
-    public StudentServiceAzure()
+    public StudentServiceAzure(TableServiceClient tableClient)
     {
-        _tableClient = new TableClient( new Uri("https://apidatastorage123.table.core.windows.net/student"),"student",new DefaultAzureCredential());
+        _tableClient = tableClient.GetTableClient("student");
     }
    public async Task<Student> CreateStudentAsync(Student student)
 {
@@ -35,10 +35,12 @@ public class StudentServiceAzure : IStudentService
 
     public async Task DeleteStudentAsync(int id)
     {
-      var student = await _tableClient.GetEntityAsync<Student>("StudentPartition", id.ToString());
-      if (student == null)
-        {
-          throw new KeyNotFoundException("Student not found");
+       try{
+              await _tableClient.GetEntityAsync<Student>("StudentPartition", id.ToString()); 
+        }
+        catch (RequestFailedException ex) when (ex.Status == 404)
+        { 
+            throw new KeyNotFoundException("Student not found!");
         }
       await _tableClient.DeleteEntityAsync("StudentPartition", id.ToString());
         
@@ -46,13 +48,16 @@ public class StudentServiceAzure : IStudentService
 
     public async Task<Student> GetStudentByIdAsync(int id)
     {
-        var student = await _tableClient.GetEntityAsync<Student>("StudentPartition", id.ToString());
-        if (student == null)
-        {
-            throw new KeyNotFoundException("Student not found");
+        
+        try{
+             return await _tableClient.GetEntityAsync<Student>("StudentPartition", id.ToString()); 
         }
-        return student;
-
+        
+        catch (RequestFailedException ex) when (ex.Status == 404)
+        { 
+            throw new KeyNotFoundException("Student not found!");
+        }
+            
     }
 
     public async Task<IEnumerable<Student>> GetStudentsAsync()

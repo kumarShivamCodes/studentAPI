@@ -11,5 +11,7 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0"/>
     <PackageReference Include="Azure.Data.Tables" Version="12.9.0"/>
     <PackageReference Include="Microsoft.Identity.Web" Version="3.0.1"/>
+    <PackageReference Include="Azure.Identity" Version="1.12.0"/>
+    <PackageReference Include="ExceptionHandling" Version="1.0.0"/>
   </ItemGroup>
 </Project>

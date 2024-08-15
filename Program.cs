@@ -1,10 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using studentAPI.Data;
 using studentAPI.Service;
 using Azure.Data.Tables;
-using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +19,8 @@ builder.Services.AddControllers();
 //     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 //     });
 
+// Register the TableServiceClient with your Azure Storage connection string
+builder.Services.AddSingleton(new TableServiceClient("DefaultEndpointsProtocol=https;AccountName=apidatastorage1234;AccountKey=9MqbI1u5LZNBQPCNRdOc+LimDv6rGAzdPCDWj/8/grgeSTefVRrrjLY0NoM+BIIYuz7MnUt7yOw7+AStcWw9lA==;EndpointSuffix=core.windows.net"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -39,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

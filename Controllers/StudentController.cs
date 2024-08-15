@@ -25,11 +25,7 @@ public class StudentController: ControllerBase
   public async Task<ActionResult<Student>> GetStudent(int id)
   {
    var student = await _studentService.GetStudentByIdAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            return Ok(student);
+   return Ok(student);
   }
 
   [HttpPost]
@@ -50,31 +46,19 @@ public class StudentController: ControllerBase
             {
                 return BadRequest(ModelState);
             }
-    try{
+    
     return Ok(await _studentService.UpdateStudentAsync(id, student));
-    }
-    catch(ArgumentException)
-    {
-      return BadRequest();
-    }
-    catch(KeyNotFoundException)
-    {
-      return NotFound();
-    }
+  
+    
   }
 
   [HttpDelete("{id}")]
-  [Authorize (Roles = "ReadWrite")]
   public async Task<ActionResult> DeleteStudent(int id)
   {
-    try
-    {
+    
+    
       await _studentService.DeleteStudentAsync(id);
       return Ok();
-    }
-    catch(KeyNotFoundException)
-    {
-      return NotFound();
-    }
+    
   }
 }
