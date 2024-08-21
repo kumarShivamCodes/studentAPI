@@ -1,9 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using studentAPI.Service;
 using Azure.Data.Tables;
+using OpenTelemetry.Logs;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// adding loggers
+builder.Logging.ClearProviders();
+builder.Logging.AddOpenTelemetry(x => x.AddConsoleExporter());
 
 // Register your StudentServiceAzure as the implementation of IStudentService
 builder.Services.AddScoped<IStudentService, StudentServiceAzure>();
